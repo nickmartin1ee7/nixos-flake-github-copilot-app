@@ -6,11 +6,11 @@
 
 let
   pname = "github-copilot-app";
-  version = "1.1.9";
+  version = "1.1.33";
 
   src = fetchurl {
     url = "https://github.com/github/app/releases/download/v${version}/GitHub-Copilot-linux-x64.AppImage";
-    hash = "sha256-mSHzD+bp9jwOvJ+wZCyrCL8+GdrLvjrWKsrLMBAhumQ=";
+    hash = "sha256-dnv9huQOhf9+uM6rHFswooOgQoPmE8Ti7UoW+0gzQOE=";
   };
 
   appimageContents = appimageTools.extract {
@@ -19,6 +19,8 @@ let
 in
 appimageTools.wrapType2 {
   inherit pname version src;
+
+  extraPkgs = p: [ p.libgpg-error ];
 
   extraInstallCommands = ''
     install -Dm444 '${appimageContents}/usr/share/applications/GitHub Copilot.desktop' \
